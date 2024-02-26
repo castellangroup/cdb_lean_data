@@ -65,6 +65,13 @@ for directory in directories:
         if False in df.iloc[:, 0]:
             print(csv_file)
 
+# loop through the combined dataframe and create a .csv with each column name and its correponding index
+column_names = list(combined_df.columns)
+column_index = list(range(len(column_names)))
+column_dict = dict(zip(column_names, column_index))
+column_df = pd.DataFrame(column_dict.items(), columns=['Column Name', 'Index'])
+column_df.to_csv('equity_index.csv', index=False)
+
 
 equity_folder = 'factor\eps'
 
@@ -122,3 +129,5 @@ for directory in directories:
         # if there are any false values in the first column of the dataframe, print the name of the .csv file
         if False in df.iloc[:, 0]:
             print(csv_file)
+
+
