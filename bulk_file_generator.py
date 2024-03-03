@@ -130,4 +130,9 @@ for directory in directories:
         if False in df.iloc[:, 0]:
             print(csv_file)
 
+column_names = list(combined_df.columns)
+column_index = list(range(len(column_names)))
+column_dict = dict(zip(column_names, column_index))
+column_df = pd.DataFrame(column_dict.items(), columns=['Column Name', 'Index'])
+column_df.to_csv('factor_eps_index.csv')
 
