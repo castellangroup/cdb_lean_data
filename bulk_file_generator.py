@@ -40,9 +40,10 @@ for directory in directories:
             print("Error merging dataframes")
             combined_df = df
 
-# move the last row to be the second row
-print(combined_df.head())
             
+# remove all rows before 2020
+combined_df = combined_df[combined_df.iloc[:, 0] >= '2020-01-01']
+print(combined_df.head())
 
 # Write the combined DataFrame to a new .csv file
 combined_df.to_csv('combined_equity_data.csv', index=False)
@@ -106,9 +107,10 @@ for directory in directories:
             combined_df = df
 
 # move the last row to be the second row
-print(combined_df.head())
             
 
+combined_df = combined_df[combined_df.iloc[:, 0] >= '2020-01-01']
+print(combined_df.head())
 # Write the combined DataFrame to a new .csv file
 combined_df.to_csv('combined_factor_eps_data.csv', index=False)
 
