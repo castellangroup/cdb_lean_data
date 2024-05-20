@@ -4,10 +4,6 @@ import os
 import time
 import sys
 
-data = pd.read_excel('long_universe.xlsx')
-
-print(data)
-
 folder_dict = {
     'PX_OPEN': 'equity',
     'RETURN_COM_EQY': 'roe',
@@ -16,21 +12,29 @@ folder_dict = {
     'BEST_DIV_YLD': 'div_yield',
     'CURRENT_EV_TO_T12M_EBIT': 'ev_ebit',
     'RSI_30D': 'rsi_30d',
+    'BEST_SALES': 'revenue',
+    'BEST_EPS_NXT_YR': 'eps_nxt_yr',
 }
 
-tickers = data['Ticker'].values.tolist()
-fields = ["PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "PX_VOLUME"]
-#fields = ["RSI_30D"]
+tick_file = pd.read_excel('ticker_lists/long_universe.xlsx')
+tickers = tick_file['Ticker'].values.tolist()
+#append SPY US Equity to the list
+tickers.append('SPY US Equity')
+
+#fields = ["PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "PX_VOLUME"]
+fields = ["BEST_EPS_NXT_YR"]
 
 for ticker in tickers:
-    start_date = '2020-01-01'
-    end_date = "2024-04-08"
+    start_date = '2019-01-01'
+    end_date = "2024-05-01"
     data = blp.bdh(ticker, fields, start_date=start_date, end_date=end_date, Days="A")
     print(data)
 
     ticker_name = ticker.split()[0]
     ticker_country = ticker.split()[1]
 
+    ticker_name = ticker_name.replace('/', '.')
+    
     #path based on folder_dict
     field = fields[0]
     folder = folder_dict[field]
