@@ -33,7 +33,7 @@ for directory in directories:
                 columns[index] = split[0] + " VOLUME"
         df.columns = columns
         #join the dataframes
-        print(csv_file)
+        #print(csv_file)
         try:
             combined_df = pd.merge(combined_df, df, how='outer')
         except pd.errors.MergeError:
@@ -99,7 +99,7 @@ for directory in directories:
                 columns[index] = split[0] + " BEST_EPS_NXT_YR"
         df.columns = columns
         #join the dataframes
-        print(csv_file)
+        #print(csv_file)
         try:
             combined_df = pd.merge(combined_df, df, how='outer')
         except pd.errors.MergeError:
@@ -111,6 +111,24 @@ for directory in directories:
 
 combined_df = combined_df[combined_df.iloc[:, 0] >= '2020-01-01']
 print(combined_df.head())
+
+#drop all rows with NaN values
+print(f"earliest date {combined_df.dropna()}")
+
+# get the 2022-01-01 row
+row = combined_df[combined_df.iloc[:, 0] == '2022-01-01']
+print("row data")
+print(row)
+# print how many NaN values are in the row as an integer
+print("number of NaN values in row")
+print(row.isnull().sum().sum())
+# print the length of the row
+print("length of row")
+print(len(row.iloc[0]))
+
+print(f"percet of NaN values in row {row.isnull().sum().sum() / len(row.iloc[0])}")
+
+
 # Write the combined DataFrame to a new .csv file
 combined_df.to_csv('combined_factor_eps_data.csv', index=False)
 
