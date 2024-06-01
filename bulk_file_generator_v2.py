@@ -6,6 +6,7 @@ import sys
 
 data_folders = ['equity', 'factor', 'fx']
 output_folder = 'outputs/'
+ticker_list_output = 'ticker_list/other/'
 logging.basicConfig()
 logger = logging.getLogger(name='BulkFileGen')
 coloredlogs.install(logger=logger)
@@ -210,7 +211,8 @@ def create_combined_data(folder, type='equity', convert_to_USD=False):
     column_index = list(range(len(column_names)))
     column_dict = dict(zip(column_names, column_index))
     column_df = pd.DataFrame(column_dict.items(), columns=['Column Name', 'Index'])
-    column_df.to_csv(output_folder + type + '_index.csv', index=False)
+    column_df.to_csv(ticker_list_output + type + '_index.csv', index=False)
+
         
 def rename_columns(df, type='equity'):
     """
