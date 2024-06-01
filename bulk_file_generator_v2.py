@@ -5,6 +5,7 @@ import logging, coloredlogs
 import sys
 
 data_folders = ['equity', 'factor', 'fx']
+output_folder = 'outputs/'
 logging.basicConfig()
 logger = logging.getLogger(name='BulkFileGen')
 coloredlogs.install(logger=logger)
@@ -34,12 +35,11 @@ logger.setLevel(level=logging.DEBUG)
 
 
 def main():
-
     #convert_currency()
     #for data_folder in data_folders:
         #create_combined_data(data_folder, data_folder)
-    create_combined_data('equity', 'equity', True)
-    #create_combined_data('factor\eps', 'eps')
+    create_combined_data('equity', 'equity', False)
+    create_combined_data('factor\eps', 'eps')
 
 def convert_currency():
     """
@@ -191,7 +191,7 @@ def create_combined_data(folder, type='equity', convert_to_USD=False):
 
     combined_df = combined_df[combined_df.iloc[:, 0] >= '2020-01-01']
     try:
-        combined_df.to_csv('combined_' + type + '_data.csv', index=False)
+        combined_df.to_csv(output_folder + 'combined_' + type + '_data.csv', index=False)
     except PermissionError:
         logger.error("Error writing to file. Please close the file and try again.")
         return
@@ -210,7 +210,7 @@ def create_combined_data(folder, type='equity', convert_to_USD=False):
     column_index = list(range(len(column_names)))
     column_dict = dict(zip(column_names, column_index))
     column_df = pd.DataFrame(column_dict.items(), columns=['Column Name', 'Index'])
-    column_df.to_csv(type + '_index.csv', index=False)
+    column_df.to_csv(output_folder + type + '_index.csv', index=False)
         
 def rename_columns(df, type='equity'):
     """
