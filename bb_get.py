@@ -4,6 +4,10 @@ import os
 import time
 import sys
 
+#data = pd.read_excel('long_universe.xlsx')
+#data = pd.read_csv('ticker_lists/ti_hist_ticks.csv')
+data = pd.read_excel('ticker_lists/etf_and_index.xlsx')
+
 folder_dict = {
     'PX_OPEN': 'equity',
     'RETURN_COM_EQY': 'roe',
@@ -13,23 +17,31 @@ folder_dict = {
     'CURRENT_EV_TO_T12M_EBIT': 'ev_ebit',
     'RSI_30D': 'rsi_30d',
     'BEST_SALES': 'revenue',
-    'BEST_EPS_NXT_YR': 'eps_nxt_yr',
 }
 
-tick_file = pd.read_excel('ticker_lists/long_universe.xlsx')
-tickers = tick_file['Ticker'].values.tolist()
-#append SPY US Equity to the list
-tickers.append('SPY US Equity')
+#tickers = data['tickers'].values.tolist()
+tickers = ['SPDAUDT Index']
+fields = ["PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "PX_VOLUME"]
+#fields = ["BEST_EPS"]
 
-#fields = ["PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "PX_VOLUME"]
-fields = ["BEST_EPS_NXT_YR"]
+output_dir = 'index'
+os.makedirs(output_dir, exist_ok=True)
 
 for ticker in tickers:
-    start_date = '2019-01-01'
-    end_date = "2024-05-01"
-    data = blp.bdh(ticker, fields, start_date=start_date, end_date=end_date, Days="A")
-    print(data)
 
+    start_date = '1980-01-01'
+    end_date = "2024-05-29"
+    data = blp.bdh(ticker, fields, start_date=start_date, end_date=end_date, Days="A")
+
+    processed_ticker = ticker[:-6]
+
+    csv_file_path = os.path.join(output_dir, f'{processed_ticker}.csv')
+
+    ticker_df = pd.DataFrame(data)
+    
+    ticker_df.to_csv(csv_file_path)
+
+    '''
     ticker_name = ticker.split()[0]
     ticker_country = ticker.split()[1]
 
@@ -53,4 +65,5 @@ for ticker in tickers:
         data.to_csv(f'factor/{folder}/{ticker_country}/{ticker_name}.csv', index=True, header=True)
         print('Data saved to ' + f'factor/{folder}/{ticker_country}/{ticker_name}.csv')
 
-    time.sleep(0.05)
+    '''
+    time.sleep(0.05) 

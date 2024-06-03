@@ -1,0 +1,11 @@
+env/
+**/__pycache__/
+.env
+*.env
+*.sqlite3
+*.db
+migrations/
+.DS_Store
+token
+chromedriver
+chromedriver.exe
