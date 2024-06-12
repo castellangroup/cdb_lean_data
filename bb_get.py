@@ -6,7 +6,9 @@ import sys
 
 #data = pd.read_excel('long_universe.xlsx')
 #data = pd.read_csv('ticker_lists/ti_hist_ticks.csv')
-data = pd.read_excel('ticker_lists/etf_and_index.xlsx')
+#data = pd.read_excel('ticker_lists/etf_and_index.xlsx')
+# data = pd.read_csv('ticker_lists/Equity rolling_eqs_ticker_list.csv')
+data = pd.read_csv('ticker_lists/rolling_eqs_ticker_list.csv')
 
 folder_dict = {
     'PX_OPEN': 'equity',
@@ -19,15 +21,19 @@ folder_dict = {
     'BEST_SALES': 'revenue',
 }
 
-#tickers = data['tickers'].values.tolist()
-tickers = ['SPDAUDT Index']
-fields = ["PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "PX_VOLUME"]
-#fields = ["BEST_EPS"]
+tickers = data['tickers'].values.tolist()
+#tickers = ['SPDAUDT Index']
+#fields = ["PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "PX_VOLUME"]
+fields = ["BEST_EPS"]
 
-output_dir = 'index'
+output_dir = 'rolling_eqs/factor/eps'
 os.makedirs(output_dir, exist_ok=True)
 
+i = 0
 for ticker in tickers:
+
+    i += 1
+    print(f"Getting data for {ticker} ({i}/{len(tickers)})")
 
     start_date = '1980-01-01'
     end_date = "2024-05-29"
@@ -35,11 +41,16 @@ for ticker in tickers:
 
     processed_ticker = ticker[:-6]
 
-    csv_file_path = os.path.join(output_dir, f'{processed_ticker}.csv')
-
+    country_output_dir = os.path.join(output_dir, processed_ticker.split()[1])
+    os.makedirs(country_output_dir, exist_ok=True)
+    csv_file_path = os.path.join(country_output_dir, f'{processed_ticker}.csv')
     ticker_df = pd.DataFrame(data)
     
-    ticker_df.to_csv(csv_file_path)
+    try:
+        ticker_df.to_csv(csv_file_path)
+    except OSError as e:
+        print(f'Error: Unable to save {processed_ticker} to path {csv_file_path}: {e}')
+        continue
 
     '''
     ticker_name = ticker.split()[0]
