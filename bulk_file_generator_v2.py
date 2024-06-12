@@ -7,6 +7,7 @@ import sys
 data_folders = ['equity', 'factor', 'fx']
 output_folder = 'outputs/'
 ticker_list_output = 'ticker_lists/other/'
+
 logging.basicConfig()
 logger = logging.getLogger(name='BulkFileGen')
 coloredlogs.install(logger=logger)
