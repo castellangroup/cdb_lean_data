@@ -7,8 +7,7 @@ import sys
 #data = pd.read_excel('long_universe.xlsx')
 #data = pd.read_csv('ticker_lists/ti_hist_ticks.csv')
 #data = pd.read_excel('ticker_lists/etf_and_index.xlsx')
-# data = pd.read_csv('ticker_lists/Equity rolling_eqs_ticker_list.csv')
-data = pd.read_csv('ticker_lists/rolling_eqs_ticker_list.csv')
+data = pd.read_csv('ticker_lists/Equity_rolling_eqs_ticker_list.csv')
 
 folder_dict = {
     'PX_OPEN': 'equity',
@@ -23,9 +22,10 @@ folder_dict = {
 
 tickers = data['tickers'].values.tolist()
 #tickers = ['SPDAUDT Index']
-#fields = ["PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "PX_VOLUME"]
+# fields = ["PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "PX_VOLUME"]
 fields = ["BEST_EPS"]
 
+# output_dir = 'rolling_eqs/Equity'
 output_dir = 'rolling_eqs/factor/eps'
 os.makedirs(output_dir, exist_ok=True)
 
